@@ -1,0 +1,26 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  opacity: .5;
+  background: linear-gradient(to bottom right, #0D47A1 10%, #004D40);
+}
+
+.content {
+  background-color: #fff;
+  position: absolute;
+  top: 15vh;
+  left: 10vw;
+  width: 80vw;
+  height: 70vh;
+}
