@@ -27,7 +27,7 @@ const app = express();
 //     }
 // };
 
-const PORT = process.env.PORT || 3385;
+const PORT = process.env.PORT || 3345;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 express.static(path.join(__dirname + '../src'));
