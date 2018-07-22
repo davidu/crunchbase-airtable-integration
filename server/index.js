@@ -27,6 +27,7 @@ const app = express();
 //     }
 // };
 
+const PORT = process.env.PORT || 3385;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 express.static(path.join(__dirname + '../src'));
@@ -42,4 +43,4 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../src/views', 'index.html'));
 });
 
-app.listen(3345);
+app.listen(PORT);
