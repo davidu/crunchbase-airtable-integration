@@ -30,7 +30,8 @@ const app = express();
 const PORT = process.env.PORT || 3345;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-express.static(path.join(__dirname + '../src'));
+
+app.use(express.static(path.join(__dirname, "../src")));
 
 // static files
 app.use('/fonts', express.static(path.join(__dirname, '..', '/src/views/static/fonts')));
