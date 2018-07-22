@@ -6,10 +6,12 @@
 }
 
 html {
+  font-family: Tahoma;
   font-size: 62.5%;
 }
 
 .background {
+  z-index: -1;
   width: 100vw;
   height: 100vh;
   opacity: .5;
@@ -22,5 +24,33 @@ html {
   top: 15vh;
   left: 10vw;
   width: 80vw;
-  height: 70vh;
+  height: 80vh;
+  overflow-y: auto;
+
+}
+
+.row {
+  font-size: 1.6rem;
+  padding: 1rem;
+  width: calc(100% - 2rem)
+}
+
+.row20 {
+  vertical-align: middle;
+  display: inline-block;
+  width: 17.5%;
+}
+
+.row80 {
+  vertical-align: middle;
+  display: inline-block;
+  width: 75%;
+}
+
+img {
+  position: absolute;
+  top: 5vh;
+  z-index: 1;
+  width: 10vh;
+  left: 10vw;
 }

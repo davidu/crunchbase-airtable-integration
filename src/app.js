@@ -1,5 +1,7 @@
-import React, { Component } from "react";
-import { TextField, FlatButton } from "material-ui";
+import React, {Component} from "react";
+import {TextField, FlatButton} from "material-ui";
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 
 export default class App extends Component {
@@ -20,20 +22,50 @@ export default class App extends Component {
     }
 
     async handleChange() {
-        let response = await axios.get(`https://api.crunchbase.com/v3.1/organizations/${this.state.value}?user_key=93486c676d74b7c40832d060c61d682e&page=1&sort_order=created_at%20DESC&items_per_page=250`);
-        let organization = response.data;
-        let org = {
-            Name: organization.data.properties.name,
-            Description: organization.data.properties.description,
-            Location: organization.data.relationships.offices.item.properties.country === "Israel" ? "Israel" : "Foreign",
-            TotalFunding: organization.data.properties.total_funding_usd,
-            Website: this.findWebsite(organization.data.relationships.websites, "homepage"),
-            LinkedIn: this.findWebsite(organization.data.relationships.websites, "linkedin"),
-            Crunchbase: `https://www.crunchbase.com/organization/${this.state.value}`,
-            Categories: organization.data.relationships.categories.items.map(item => { return item.properties.name} ).join(", "),
-            Investores: organization.data.relationships.investors.items.filter(item => {return item.type === "Organization"}).map(item => {return item.properties.name}).join(", ")
+        if (this.state.value === "") {
+            toast.error("Type a valid value", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+        } else {
+            let response = await axios.get(`https://api.crunchbase.com/v3.1/organizations/${this.state.value}?user_key=93486c676d74b7c40832d060c61d682e&page=1&sort_order=created_at%20DESC&items_per_page=250`).catch(e => {
+                toast.error("item is not exist(don't forget to use the preamble!)", {
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            });
+            if (response.data) {
+                let organization = response.data;
+                let org = {
+                    Name: organization.data.properties.name,
+                    Description: organization.data.properties.description,
+                    Location: organization.data.relationships.offices.item.properties.country === "Israel" ? "Israel" : "Foreign",
+                    TotalFunding: organization.data.properties.total_funding_usd,
+                    Website: this.findWebsite(organization.data.relationships.websites, "homepage"),
+                    LinkedIn: this.findWebsite(organization.data.relationships.websites, "linkedin"),
+                    Crunchbase: `https://www.crunchbase.com/organization/${this.state.value}`,
+                    Categories: organization.data.relationships.categories.items.map(item => {
+                        return item.properties.name
+                    }).join(", "),
+                    Investores: organization.data.relationships.investors.items.filter(item => {
+                        return item.type === "Organization"
+                    }).map(item => {
+                        return item.properties.name
+                    }).join(", ")
+                }
+                this.setState({organization: {img: organization.data.properties.profile_image_url, org}});
+                console.log(organization)
+                await axios.post('/data/row', {data: org}).catch(e => {
+                    toast.error(e.response.data, {
+                        position: toast.POSITION.BOTTOM_LEFT
+                    });
+                }).then((e) => {
+                    if(e.status === 200) {
+                        toast.success("Added To AirTable!", {
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
+                    }
+                });
+            }
         }
-        let request = await axios.post('/data/row', {data: org});
     }
 
     changeText(e) {
@@ -44,11 +76,13 @@ export default class App extends Component {
         const inputStyle = {
             position: "absolute",
             width: "20%",
-            left: "40%",
+            left: "30%",
             top: "5vh"
         }
+        const {organization} = this.state;
         return (
             <div>
+                <ToastContainer/>
                 <div className="background"></div>
                 <TextField
                     hintText="Type anything"
@@ -57,15 +91,23 @@ export default class App extends Component {
                     style={inputStyle}
                     onChange={this.changeText.bind(this)}
                 />
-                <FlatButton label="Default" onClick={this.handleChange.bind(this)} style={{
+                <FlatButton label="Add To AirTable" onClick={this.handleChange.bind(this)} style={{
                     position: "absolute",
-                    width: "20%",
-                    left: "60%",
+                    width: "30%",
+                    left: "50%",
                     top: "5vh"
                 }}/>
+                {organization ? <img src={organization.img}/> : null}
                 <div className={"content"}>
                     {
-
+                        organization ?
+                            Object.keys(organization.org).map(item => {
+                                return <div className={"row"}>
+                                    <p className={"row20"}>{item}</p>
+                                    <p className={"row80"}>{organization.org[item]}</p>
+                                </div>
+                            })
+                            : null
                     }
                 </div>
             </div>
