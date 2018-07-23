@@ -49,22 +49,33 @@ export default class App extends Component {
                         return item.type === "Organization"
                     }).map(item => {
                         return item.properties.name
+                    }).join(", "),
+                    Founders: response.data.data.relationships.founders.items.map(item => {
+                        return `${item.properties.first_name} ${item.properties.last_name}`
                     }).join(", ")
                 }
                 this.setState({organization: {img: organization.data.properties.profile_image_url, org}});
-                console.log(organization)
-                await axios.post('/data/row', {data: org}).catch(e => {
-                    toast.error(e.response.data, {
+            }
+        }
+    }
+
+    async sendRequest() {
+        if (this.state.organization) {
+            await axios.post('/data/row', {data: this.state.organization.org}).catch(e => {
+                toast.error(e.response.data, {
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            }).then((e) => {
+                if (e.status === 200) {
+                    toast.success("Added To AirTable!", {
                         position: toast.POSITION.BOTTOM_LEFT
                     });
-                }).then((e) => {
-                    if(e.status === 200) {
-                        toast.success("Added To AirTable!", {
-                            position: toast.POSITION.BOTTOM_LEFT
-                        });
-                    }
-                });
-            }
+                }
+            });
+        } else {
+            toast.error("first select a company!", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
         }
     }
 
@@ -91,18 +102,28 @@ export default class App extends Component {
                     style={inputStyle}
                     onChange={this.changeText.bind(this)}
                 />
-                <FlatButton label="Add To AirTable" onClick={this.handleChange.bind(this)} style={{
+                <FlatButton label="Search In CrunchBase" onClick={this.handleChange.bind(this)} style={{
                     position: "absolute",
                     width: "30%",
                     left: "50%",
                     top: "5vh"
                 }}/>
+                {
+                    organization ?
+                        <FlatButton label="Add To AirTable" onClick={this.sendRequest.bind(this)} style={{
+                            position: "absolute",
+                            width: "30%",
+                            left: "70%",
+                            top: "5vh"
+                        }}/> : null
+                }
+
                 {organization ? <img src={organization.img}/> : null}
                 <div className={"content"}>
                     {
                         organization ?
                             Object.keys(organization.org).map(item => {
-                                return <div className={"row"}>
+                                return <div className={"row"} key={item}>
                                     <p className={"row20"}>{item}</p>
                                     <p className={"row80"}>{organization.org[item]}</p>
                                 </div>

@@ -5,7 +5,7 @@ let base = new Airtable({apiKey: 'key1rk5YNnkac6Iv8'}).base('appoxnXQ7asCyquMr')
 
 const COLLECTION = "organizations";
 let dataFetcher = express.Router();
-let token = 40;
+let token = 20;
 dataFetcher.post('/row', async(req, res)  => {
     if (token > 0) {
         base('Testing').create(req.body.data, function(err, record) {
