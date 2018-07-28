@@ -7,8 +7,9 @@ const COLLECTION = "organizations";
 let dataFetcher = express.Router();
 let token = 20;
 dataFetcher.post('/row', async(req, res)  => {
+    let {type} = req.body;
     if (token > 0) {
-        base('Testing').create(req.body.data, function(err, record) {
+        base(type).create(req.body.data, function(err, record) {
             if (err) { console.error(err); return; }
             res.send("ok");
         });
