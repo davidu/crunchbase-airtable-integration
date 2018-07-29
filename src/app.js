@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TextField, FlatButton, Toggle} from "material-ui";
+import {TextField, FlatButton, SelectField, MenuItem} from "material-ui";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KeySwitch from "./Components/KeySwitch";
@@ -7,7 +7,8 @@ import axios from "axios";
 
 const VENTURE_CAPITAL_FIRM = "Venture Capital Firm";
 const COMPANY = "Company";
-
+const PEOPLE = "People";
+const ALL_TYPES = [VENTURE_CAPITAL_FIRM, COMPANY, PEOPLE];
 const FUNDING_TYPES = {
     seed: "Seed",
     angel: "Angel",
@@ -109,6 +110,14 @@ export default class App extends Component {
         }
     }
 
+    getPersonData(person) {
+        return {
+            Name: `${person.data.properties.first_name} ${person.data.properties.last_name}`,
+            Title: person.data.relationships.primary_affiliation.item.properties.title,
+            LinkedIn: this.findWebsite(person.data.relationships.websites, "linkedin")
+        }
+    }
+
     getTheInvestmentStage(data) {
 
     }
@@ -119,13 +128,14 @@ export default class App extends Component {
                 position: toast.POSITION.BOTTOM_LEFT
             });
         } else {
-            let response = await axios.get(`https://api.crunchbase.com/v3.1/organizations/${this.state.value}?user_key=${this.state.key}`).catch(e => {
+            console.log(this.state);
+            let response = await axios.get(`https://api.crunchbase.com/v3.1/${this.state.organizationType === PEOPLE ? 'people' : 'organizations'}/${this.state.value}?user_key=${this.state.key}`).catch(e => {
                 toast.error("item is not exist(don't forget to use the preamble!)", {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
             });
             if (response.data) {
-                let org = this.state.organizationType === COMPANY ? this.getComapnyData(response.data) : this.getVentureCapitalFirmData(response.data);
+                let org = this.state.organizationType === COMPANY ? this.getComapnyData(response.data) : (this.state.organizationType === VENTURE_CAPITAL_FIRM ? this.getVentureCapitalFirmData(response.data) : this.getPersonData(response.data));
                 this.setState({
                     organization: {img: response.data.data.properties.profile_image_url, org},
                     response: response.data
@@ -174,19 +184,18 @@ export default class App extends Component {
         this.setState({keySwitchOpen: !this.state.keySwitchOpen})
     }
 
-    changeOrganization() {
-        let newOrganization = this.state.organizationType === COMPANY ? VENTURE_CAPITAL_FIRM : COMPANY
+    changeOrganization(event, index, value) {
+        console.log(value);
         this.setState({
-            organizationType: newOrganization,
-        });
-        this.handleChange();
+            organizationType: value,
+        }, this.handleChange);
     }
 
     render() {
         const inputStyle = {
             position: "absolute",
             width: "20%",
-            left: "30%",
+            left: "10%",
             top: "5vh"
         }
         const {organization} = this.state;
@@ -205,21 +214,28 @@ export default class App extends Component {
                     style={inputStyle}
                     onChange={this.changeText.bind(this)}
                 />
-                <Toggle
-                    label={this.state.organizationType}
+                <SelectField
+                    floatingLabelText="Crunchbase Search"
+                    value={this.state.organizationType}
                     style={{
                         position: "absolute",
                         fontSize: "1.6rem",
                         width: "20%",
-                        left: "30%",
-                        top: "11vh"
+                        left: "35%",
+                        top: ".69vh"
                     }}
-                    onToggle={this.changeOrganization.bind(this)}
-                />
+                    onChange={this.changeOrganization.bind(this)}
+                >
+                    {
+                        ALL_TYPES.map(i => {
+                            return <MenuItem value={i} primaryText={i} />
+                        })
+                    }
+                </SelectField>
                 <FlatButton label="Search In CrunchBase" onClick={this.handleChange.bind(this)} style={{
                     position: "absolute",
                     width: "20%",
-                    left: "50%",
+                    left: "55%",
                     top: "5vh"
                 }}/>
                 {
