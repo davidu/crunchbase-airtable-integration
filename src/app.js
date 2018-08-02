@@ -3,6 +3,7 @@ import {TextField, FlatButton, SelectField, MenuItem} from "material-ui";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KeySwitch from "./Components/KeySwitch";
+import Company from "./Components/Company";
 import axios from "axios";
 
 const VENTURE_CAPITAL_FIRM = "Venture Capital Firm";
@@ -46,7 +47,7 @@ export default class App extends Component {
         this.state = {
             value: "",
             keySwitchOpen: false,
-            organizationType: COMPANY,
+            organizationType: undefined,
             key: "",
             organiztion: {},
             framework: "crunchbase"
@@ -146,7 +147,10 @@ export default class App extends Component {
 
     async sendRequest() {
         if (this.state.organization) {
-            await axios.post('/data/row', {data: this.state.organization.org, type: this.state.organizationType}).catch(e => {
+            await axios.post('/data/row', {
+                data: this.state.organization.org,
+                type: this.state.organizationType
+            }).catch(e => {
                 toast.error(e.response.data, {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
@@ -192,80 +196,41 @@ export default class App extends Component {
     }
 
     render() {
-        const inputStyle = {
-            position: "absolute",
-            width: "20%",
-            left: "10%",
-            top: "5vh"
-        }
         const {organization} = this.state;
+        console.log(JSON.stringify(organization));
         return (
-            <div>
-                <KeySwitch open={this.state.keySwitchOpen}
-                           close={this.openKeySwitch.bind(this)}
-                           toastSuccess={this.toastSuccess.bind(this)}
-                           toastError={this.toastError.bind(this)}/>
+            <div className={"app"}>
                 <ToastContainer/>
-                <div className="background"></div>
-                <TextField
-                    hintText="Type anything"
-                    id="text-field-controlled"
-                    value={this.state.value}
-                    style={inputStyle}
-                    onChange={this.changeText.bind(this)}
-                />
-                <SelectField
-                    floatingLabelText="Crunchbase Search"
-                    value={this.state.organizationType}
-                    style={{
-                        position: "absolute",
-                        fontSize: "1.6rem",
-                        width: "20%",
-                        left: "35%",
-                        top: ".69vh"
-                    }}
-                    onChange={this.changeOrganization.bind(this)}
-                >
-                    {
-                        ALL_TYPES.map(i => {
-                            return <MenuItem value={i} primaryText={i} />
-                        })
-                    }
-                </SelectField>
-                <FlatButton label="Search In CrunchBase" onClick={this.handleChange.bind(this)} style={{
-                    position: "absolute",
-                    width: "20%",
-                    left: "55%",
-                    top: "5vh"
-                }}/>
-                {
-                    organization ?
-                        <FlatButton label="Add To AirTable" onClick={this.sendRequest.bind(this)} style={{
-                            position: "absolute",
-                            width: "20%",
-                            left: "70%",
-                            top: "5vh"
-                        }}/> : null
-                }
-                <FlatButton label="🔑" onClick={this.openKeySwitch.bind(this)} style={{
-                    position: "absolute",
-                    width: "1%",
-                    left: "95%",
-                    top: "5vh"
-                }}/>
-                {organization ? <img src={organization.img}/> : null}
-                <div className={"content"}>
-                    {
-                        organization ?
-                            Object.keys(organization.org).map(item => {
-                                return <div className={"row"} key={item}>
-                                    <p className={"row20"}>{item}</p>
-                                    <p className={"row80"}>{organization.org[item]}</p>
-                                </div>
+                <div className={"app__headline"}>
+                    <KeySwitch open={this.state.keySwitchOpen}
+                               close={this.openKeySwitch.bind(this)}
+                               toastSuccess={this.toastSuccess.bind(this)}
+                               toastError={this.toastError.bind(this)}/>
+                    <TextField
+                        hintText="Type a VC firm, company, or person"
+                        id="text-field-controlled"
+                        value={this.state.value}
+                        onChange={this.changeText.bind(this)}
+                    />
+                    <SelectField
+                        hintText={"Choose"}
+                        value={this.state.organizationType}
+                        onChange={this.changeOrganization.bind(this)}
+                    >
+                        {
+                            ALL_TYPES.map(i => {
+                                return <MenuItem value={i} primaryText={i}/>
                             })
-                            : null
-                    }
+                        }
+                    </SelectField>
+                    <div className={"btn"} onClick={this.handleChange.bind(this)}><p>Search</p></div>
+                    <div className={"btn"} onClick={this.sendRequest.bind(this)}><p>Add</p></div>
+                    <div className={"btn__key"} onClick={this.openKeySwitch.bind(this)}><p>🔑</p></div>
+
+                    <img src="/img/logo.png" className={"logo"} alt=""/>
                 </div>
+                <Company />
+
             </div>
         );
     }

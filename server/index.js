@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, "../src")));
 
 // static files
 app.use('/fonts', express.static(path.join(__dirname, '..', '/src/views/static/fonts')));
-app.use('/svg', express.static(path.join(__dirname, '..', '/src/views/static/svg')));
+app.use('/img', express.static(path.join(__dirname, '..', '/src/img')));
 
 // api
 app.use('/data', dataFetcher);
