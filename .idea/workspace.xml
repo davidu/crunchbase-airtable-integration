@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62bf007b-379f-4312-9b28-42fc84073af7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Company.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Person.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Person.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/background.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/background.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/content.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/content.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -52,13 +45,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="js" value="6656" />
-          <entry key="scss" value="591" />
+          <entry key="scss" value="593" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JavaScript" value="6656" />
-          <entry key="SCSS" value="591" />
+          <entry key="SCSS" value="593" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -106,20 +99,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/styles/background.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+            <state relative-caret-position="-1116">
+              <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/styles/content.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+            <state relative-caret-position="121">
+              <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -189,6 +182,7 @@
       <find>content</find>
       <find>data</find>
       <find>getVentureCapitalFirmData</find>
+      <find>btn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -213,12 +207,12 @@
         <option value="$PROJECT_DIR$/src/Components/KeySwitch.js" />
         <option value="$PROJECT_DIR$/server/index.js" />
         <option value="$PROJECT_DIR$/src/styles/main.scss" />
-        <option value="$PROJECT_DIR$/src/styles/content.scss" />
         <option value="$PROJECT_DIR$/src/Components/Company.js" />
         <option value="$PROJECT_DIR$/src/Components/VCFirm.js" />
         <option value="$PROJECT_DIR$/src/Components/Person.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/src/styles/background.scss" />
+        <option value="$PROJECT_DIR$/src/styles/content.scss" />
       </list>
     </option>
   </component>
@@ -349,18 +343,18 @@
       <workItem from="1532716115011" duration="13963000" />
       <workItem from="1532885816910" duration="2773000" />
       <workItem from="1533139452003" duration="5361000" />
-      <workItem from="1533289394978" duration="10127000" />
+      <workItem from="1533289394978" duration="10504000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74246000" />
+    <option name="totallyTimeSpent" value="74623000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2501322" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2501322" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" />
@@ -372,7 +366,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.33072627" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.33072627" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.329718" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -499,13 +493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/content.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/VCFirm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
@@ -565,8 +552,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/background.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+        <state relative-caret-position="-1116">
+          <caret line="46" column="21" lean-forward="true" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/content.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
         </state>
       </provider>
     </entry>
