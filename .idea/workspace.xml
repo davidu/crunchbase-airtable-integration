@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62bf007b-379f-4312-9b28-42fc84073af7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/styles/content.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/content.scss" afterDir="false" />
-    </list>
+    <list default="true" id="62bf007b-379f-4312-9b28-42fc84073af7" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -111,8 +109,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/styles/content.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
+            <state relative-caret-position="329">
+              <caret line="74" column="1" lean-forward="true" selection-start-line="74" selection-start-column="1" selection-end-line="74" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -343,12 +341,12 @@
       <workItem from="1532716115011" duration="13963000" />
       <workItem from="1532885816910" duration="2773000" />
       <workItem from="1533139452003" duration="5361000" />
-      <workItem from="1533289394978" duration="10874000" />
+      <workItem from="1533289394978" duration="11059000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74993000" />
+    <option name="totallyTimeSpent" value="75178000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -559,8 +557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/content.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
+        <state relative-caret-position="329">
+          <caret line="74" column="1" lean-forward="true" selection-start-line="74" selection-start-column="1" selection-end-line="74" selection-end-column="1" />
         </state>
       </provider>
     </entry>
