@@ -47,7 +47,7 @@
 
   &__other {
     height: calc(7.5vw + 3rem);
-    margin: 4rem 0 5rem 0 ;
+    margin: 4rem 0 4rem 0 ;
     padding: 1rem;
     border-bottom: .1rem solid rgba(#999, .4);
     overflow-y: auto;
@@ -61,10 +61,8 @@
   }
 
   &__websites {
-    height: calc(4vw + 3rem);
-    margin: 4rem 0 5rem 0 ;
+    height: calc(4vw);
     padding: 1rem;
-    border-bottom: .1rem solid rgba(#999, .4);
     overflow-y: auto;
 
     &_item {
