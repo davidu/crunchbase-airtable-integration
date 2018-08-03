@@ -4,7 +4,10 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import KeySwitch from "./Components/KeySwitch";
 import Company from "./Components/Company";
+import VCFirm from "./Components/VCFirm";
+import Person from "./Components/Person";
 import axios from "axios";
+import Loader from 'react-loaders'
 
 const VENTURE_CAPITAL_FIRM = "Venture Capital Firm";
 const COMPANY = "Company";
@@ -50,12 +53,17 @@ export default class App extends Component {
             organizationType: undefined,
             key: "",
             organiztion: {},
-            framework: "crunchbase"
+            framework: "crunchbase",
+            searched: false
         }
     }
 
     componentDidMount() {
         this.getKey();
+    }
+
+    changeSearched() {
+        this.setState({searched: !this.state.searched});
     }
 
     async getKey() {
@@ -76,11 +84,14 @@ export default class App extends Component {
             Name: organization.data.properties.name,
             Description: organization.data.properties.description,
             Location: organization.data.relationships.offices.item.properties.country === "Israel" ? "Israel" : "Foreign",
-            TotalFunding: organization.data.properties.total_funding_usd,
+            TotalFunding: (organization.data.properties.total_funding_usd).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            }),
             Website: this.findWebsite(organization.data.relationships.websites, "homepage"),
             LinkedIn: this.findWebsite(organization.data.relationships.websites, "linkedin"),
             Crunchbase: `https://www.crunchbase.com/organization/${this.state.value}`,
-            Categories: organization.data.relationships.categories.items.map(item => {
+            Industries: organization.data.relationships.categories.items.map(item => {
                 return item.properties.name
             }).join(", "),
             Investores: organization.data.relationships.investors.items.filter(item => {
@@ -94,7 +105,16 @@ export default class App extends Component {
         }
     }
 
-    getVentureCapitalFirmData(organization) {
+    async getVentureCapitalFirmData(organization) {
+        let items = "";
+        for (let item of organization.data.relationships.investments.items) {
+            let response = await axios.get(`${item.relationships.invested_in.properties.api_url}?user_key=${this.state.key}`);
+            let categories = response.data.data.relationships.categories.items.map(item => {
+                return item.properties.name
+            }).reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(",");
+            items += categories;
+        }
+        items = items.split(',').reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(" ,");
         return {
             Name: organization.data.properties.name,
             Description: organization.data.properties.description,
@@ -105,22 +125,18 @@ export default class App extends Component {
             }).reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(", "),
             Website: this.findWebsite(organization.data.relationships.websites, "homepage"),
             LinkedIn: this.findWebsite(organization.data.relationships.websites, "linkedin"),
-            Categories: organization.data.relationships.categories.items.map(item => {
-                return item.properties.name
-            }).join(", ")
+            Industries: items
         }
+        return item;
     }
 
     getPersonData(person) {
         return {
             Name: `${person.data.properties.first_name} ${person.data.properties.last_name}`,
+            Company: person.data.relationships.jobs.items[person.data.relationships.jobs.items.length - 1].relationships.organization.properties.name,
             Title: person.data.relationships.primary_affiliation.item.properties.title,
             LinkedIn: this.findWebsite(person.data.relationships.websites, "linkedin")
         }
-    }
-
-    getTheInvestmentStage(data) {
-
     }
 
     async handleChange() {
@@ -129,18 +145,20 @@ export default class App extends Component {
                 position: toast.POSITION.BOTTOM_LEFT
             });
         } else {
-            console.log(this.state);
+            this.setState({organization: undefined});
+            this.changeSearched();
             let response = await axios.get(`https://api.crunchbase.com/v3.1/${this.state.organizationType === PEOPLE ? 'people' : 'organizations'}/${this.state.value}?user_key=${this.state.key}`).catch(e => {
                 toast.error("item is not exist(don't forget to use the preamble!)", {
                     position: toast.POSITION.BOTTOM_LEFT
                 });
+                this.changeSearched();
             });
             if (response.data) {
-                let org = this.state.organizationType === COMPANY ? this.getComapnyData(response.data) : (this.state.organizationType === VENTURE_CAPITAL_FIRM ? this.getVentureCapitalFirmData(response.data) : this.getPersonData(response.data));
+                let org = await (this.state.organizationType === COMPANY ? this.getComapnyData(response.data) : (this.state.organizationType === VENTURE_CAPITAL_FIRM ? this.getVentureCapitalFirmData(response.data) : this.getPersonData(response.data)));
                 this.setState({
                     organization: {img: response.data.data.properties.profile_image_url, org},
                     response: response.data
-                });
+                }, this.changeSearched);
             }
         }
     }
@@ -195,8 +213,26 @@ export default class App extends Component {
         }, this.handleChange);
     }
 
+    getRightObject() {
+        let { organization } = this.state;
+        switch (this.state.organizationType) {
+            case COMPANY:
+                return <Company
+                    toastSuccess={this.toastSuccess.bind(this)}
+                    organization={organization}/>
+            case VENTURE_CAPITAL_FIRM:
+                return <VCFirm
+                    toastSuccess={this.toastSuccess.bind(this)}
+                    organization={organization}/>
+            case PEOPLE:
+                return  <Person
+                    toastSuccess={this.toastSuccess.bind(this)}
+                    organization={organization}/>
+        }
+    }
+
     render() {
-        const {organization} = this.state;
+        const {organization, searched} = this.state;
         console.log(JSON.stringify(organization));
         return (
             <div className={"app"}>
@@ -206,31 +242,38 @@ export default class App extends Component {
                                close={this.openKeySwitch.bind(this)}
                                toastSuccess={this.toastSuccess.bind(this)}
                                toastError={this.toastError.bind(this)}/>
-                    <TextField
-                        hintText="Type a VC firm, company, or person"
-                        id="text-field-controlled"
-                        value={this.state.value}
-                        onChange={this.changeText.bind(this)}
-                    />
-                    <SelectField
-                        hintText={"Choose"}
-                        value={this.state.organizationType}
-                        onChange={this.changeOrganization.bind(this)}
-                    >
-                        {
-                            ALL_TYPES.map(i => {
-                                return <MenuItem value={i} primaryText={i}/>
-                            })
-                        }
-                    </SelectField>
-                    <div className={"btn"} onClick={this.handleChange.bind(this)}><p>Search</p></div>
-                    <div className={"btn"} onClick={this.sendRequest.bind(this)}><p>Add</p></div>
+                    <div style={{display: "flex", width: "80%", justifyContent: "space-between"}}>
+                        <TextField
+                            hintText="Type a VC firm, company, or person"
+                            id="text-field-controlled"
+                            value={this.state.value}
+                            onChange={this.changeText.bind(this)}
+                        />
+                        <SelectField
+                            hintText={"Choose"}
+                            value={this.state.organizationType}
+                            onChange={this.changeOrganization.bind(this)}
+                        >
+                            {
+                                ALL_TYPES.map(i => {
+                                    return <MenuItem value={i} primaryText={i}/>
+                                })
+                            }
+                        </SelectField>
+                        <div className={"btn"} onClick={this.handleChange.bind(this)}><p>Search</p></div>
+                        <div className={"btn"} onClick={this.sendRequest.bind(this)}><p>Add</p></div>
+                    </div>
                     <div className={"btn__key"} onClick={this.openKeySwitch.bind(this)}><p>🔑</p></div>
 
                     <img src="/img/logo.png" className={"logo"} alt=""/>
                 </div>
-                <Company />
+                {
+                    searched ? (
+                        organization ? this.getRightObject() : <Loader type="square-spin" />
+                    ) : organization ? this.getRightObject() : null
 
+
+                }
             </div>
         );
     }

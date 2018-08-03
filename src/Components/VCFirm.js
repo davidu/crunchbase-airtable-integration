@@ -1,11 +1,9 @@
 import React from "react";
-import CopyToClipboard from 'react-copy-to-clipboard';
+import CopyToClipboard from "react-copy-to-clipboard";
 
-export default class Company extends React.Component {
+export default class VCFirm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
     }
 
     render() {
@@ -18,16 +16,16 @@ export default class Company extends React.Component {
                     </div>
                     <div className={"content__data"}>
                         <div>
-                        <CopyToClipboard text={organization.org.Name}>
-                            <h1 onClick={(() => {
-                                this.props.toastSuccess("Copied Name")
-                            }).bind(this)}>{organization.org.Name}</h1>
-                        </CopyToClipboard>
-                        <CopyToClipboard text={organization.org.Description}>
-                            <p className={"content__data_description"} onClick={(() => {
-                                this.props.toastSuccess("Copied Description")
-                            }).bind(this)}>{organization.org.Description}</p>
-                        </CopyToClipboard>
+                            <CopyToClipboard text={organization.org.Name}>
+                                <h1 onClick={(() => {
+                                    this.props.toastSuccess("Copied Name")
+                                }).bind(this)}>{organization.org.Name}</h1>
+                            </CopyToClipboard>
+                            <CopyToClipboard text={organization.org.Description}>
+                                <p className={"content__data_description"} onClick={(() => {
+                                    this.props.toastSuccess("Copied Description")
+                                }).bind(this)}>{organization.org.Description}</p>
+                            </CopyToClipboard>
                         </div>
                         <div>
                             <p className={"content__data_property"}>Location: </p>
@@ -39,9 +37,9 @@ export default class Company extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className={"content__other"}>
+                <div className={"content__other"} style={{height: "5vw"}}>
                     {
-                        ["TotalFunding", "Industries", "Investores", "Founders"].map(item => {
+                        ["Investment Stage", "Industries"].map(item => {
                             return <div className={"content__other_item"}>
                                 <p className={"content__data_property"}>{`${item}:`}</p>
                                 <CopyToClipboard text={organization.org[item]}>

@@ -10,50 +10,6 @@ html {
   font-size: 62.5%;
 }
 
-
-.content {
-  display: block;
-  background-color: #fff;
-  width: 80%;
-  margin-left: 10%;
-
-  &__img {
-    width: 35%;
-
-    img {
-      margin-top: 1rem;
-      left: calc(10% + 1rem);
-      height: 17.5vw;
-      width: 17.5vw;
-    }
-  }
-
-  &__data {
-    margin-left: calc(20vw + 1rem);
-    padding-left: 2rem;
-    padding-top: 2rem;
-
-    &_description {
-      padding: 3rem 0;
-      font-size: 1.4rem;
-      line-height: 1.8rem;
-      word-spacing: .4rem;
-    }
-
-    &_property {
-      font-weight: 900;
-      font-size: 1.4rem;
-      display: inline-block;
-    }
-
-    &_field {
-      margin-left: 2rem;
-      display: inline-block;
-      font-size: 1.4rem;
-    }
-  }
-}
-
 .row {
   font-size: 1.6rem;
   padding: 1rem;
@@ -81,7 +37,8 @@ img {
 }
 
 .btn {
-  height: 5vh;
+  cursor: pointer;
+  height: 3vh;
   width: 5rem;
   padding: .5rem 1rem;
   border: 1px solid black;
@@ -119,4 +76,41 @@ img {
   position: absolute;
   left: 85vw;
   top: 85vh;
+}
+
+::-webkit-scrollbar {
+  width: .5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+$primary-color: #000;
+@import '~loaders.css/src/animations/square-spin.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+}
+
+.loader {
+  position: absolute;
+  left: 47.5%;
+  top: 47.5%
 }
