@@ -112,9 +112,10 @@ export default class App extends Component {
             let categories = response.data.data.relationships.categories.items.map(item => {
                 return item.properties.name
             }).reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(",");
-            items += categories;
+            items += categories + ", ";
         }
-        items = items.split(',').reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(" ,");
+        items = items.substring(0, items.length - 2);
+        items = items.split(',').reduce((x, y) => x.includes(y) ? x : [...x, y], []).join(", ");
         return {
             Name: organization.data.properties.name,
             Description: organization.data.properties.description,
@@ -133,7 +134,7 @@ export default class App extends Component {
     getPersonData(person) {
         return {
             Name: `${person.data.properties.first_name} ${person.data.properties.last_name}`,
-            Company: person.data.relationships.jobs.items[person.data.relationships.jobs.items.length - 1].relationships.organization.properties.name,
+            Company: person.data.relationships.primary_affiliation.item.relationships.organization.properties.name,
             Title: person.data.relationships.primary_affiliation.item.properties.title,
             LinkedIn: this.findWebsite(person.data.relationships.websites, "linkedin")
         }
